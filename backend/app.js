@@ -70,4 +70,6 @@ server.on('listening', () => {
   console.log('App listening on port', PORT)
 })
 
+console.log('test thu githup thoi nha')
+
 export default app
