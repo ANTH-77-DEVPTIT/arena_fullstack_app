@@ -7,12 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "format": "npm-run-all -p format:*",
-    "format:code": "npm run prettier:code -- --write",
-    "format:other": "npm run prettier:other -- --write",
-    "prettier:code": "prettier \"**/*.js\"",
-    "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\""
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
@@ -23,8 +18,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "moment": "^2.29.4",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
