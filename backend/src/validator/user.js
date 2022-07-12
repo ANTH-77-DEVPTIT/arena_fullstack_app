@@ -52,7 +52,7 @@ loginSchema = Joi.object(loginSchema)
 export default {
   create: async (req, res, next) => {
     try {
-      await createSchema.validateAsync(req.body)
+      await createSchema.validateAsync(req.body) //{ "a" : 123 } //xu ly thong qua callback qua loi goi ham
 
       next()
     } catch (error) {
