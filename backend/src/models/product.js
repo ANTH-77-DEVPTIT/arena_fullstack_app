@@ -31,6 +31,10 @@ const Model = PostgresSequelize.define('products', {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  vendorId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   status: {
     type: DataTypes.ENUM('ACTIVE', 'DRAFT', 'ARCHIVED'),
     defaultValue: 'ACTIVE',

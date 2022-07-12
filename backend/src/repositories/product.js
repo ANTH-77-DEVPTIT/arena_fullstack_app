@@ -1,37 +1,91 @@
 import Model from '../models/product.js'
+import VendorModel from "../models/vendor.js"
+
+const include = [{ model: VendorModel, as: "vendor" }]
 
 export default {
-  count: async () => {
+  find: async ({page, limit}) => {
     try {
-      return await Model.count()
+      const count = await Model.count();
+      console.log(count);
+      const items = await Model.findAll({
+        limit,
+        offset: (page - 1) * limit,
+        include,
+        order: [["id", "DESC"]] //cho nay se tuy bien khi client lua chon sap xep theo thang nao/
+        //co the tang hoac giam  tuy bien user muon.
+      }) 
+
+      return {
+        items,
+        page,
+        limit,
+        totalPage: Math.ceil(count / limit),
+        totalItems: count,
+      }
     } catch (error) {
       throw error
     }
   },
 
-  find: async (page, limit) => {
+  findById: async (idProduct) => {
     try {
-      resizeBy.send(page, limit)
-    } catch (error) {}
+      const entry = await Model.findOne({where: {id: idProduct}, include})
+
+      if(!entry) {
+        throw new Error("Product Not Found!")
+      }
+      return await Model.findOne({where: {id: idProduct}, include})
+    } catch (error) {
+      throw error
+    }
   },
 
-  findById: async () => {
+  create: async (dataProduct) => {
     try {
-    } catch (error) {}
+      console.log(dataProduct);
+      return await Model.create(dataProduct)
+    } catch (error) {
+      throw error
+    }
   },
 
-  create: async () => {
+  update: async (id, data) => {
     try {
-    } catch (error) {}
+      const entry = await Model.findOne({
+        where: {id},
+        include
+      })
+      if(!entry) {
+        throw new Error("Product Not Found!")
+      }
+
+      await Model.update(data, {
+        where: {id}, 
+        include, 
+        returning: true, 
+        plain: true
+      })
+
+      return await Model.findOne({
+        where: {id}, include
+      })
+    } catch (error) {
+      throw error
+    }
   },
 
-  update: async () => {
+  delete: async (id) => {
     try {
-    } catch (error) {}
-  },
+      const entry = await Model.findOne({where: {id}})
 
-  delete: async () => {
-    try {
-    } catch (error) {}
+      if(!entry){
+        throw new Error("Product Not Found!")
+      }
+
+      return await Model.destroy({where: {id}})
+    } catch (error) {
+      throw error
+    }
   },
 }
