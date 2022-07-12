@@ -3,9 +3,11 @@ import axios from 'axios'
 
 import users from './users.js'
 import countries from './countries.js'
+import products from './product.js'
 
 import UserRepository from '../repositories/user.js'
 import CountryRepository from '../repositories/country.js'
+import ProductRepository from '../repositories/product.js'
 
 const entries = [
   {
@@ -17,6 +19,11 @@ const entries = [
     name: 'users',
     data: users,
     repository: UserRepository,
+  },
+  {
+    name: 'products',
+    data: products,
+    repository: ProductRepository,
   },
 ]
 
