@@ -21,7 +21,7 @@ const CloudinaryUploader = {
       })
       .then((result) => {
         if (result) {
-          fs.unlinkSync(file.path)
+          fs.unlinkSync(file.path)    //remove TMP
         }
         return result
       })

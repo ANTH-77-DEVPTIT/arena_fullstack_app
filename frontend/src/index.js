@@ -12,7 +12,7 @@ import AppContainer from './AppContainer.jsx'
 import enTranslations from '@shopify/polaris/locales/en.json'
 import { AppProvider, Frame } from '@shopify/polaris'
 
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

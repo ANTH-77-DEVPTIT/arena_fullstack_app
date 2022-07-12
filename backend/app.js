@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import cors from 'cors'
 
-import indexRouter from './src/routes/index.js'
+// import indexRouter from './src/routes/index.js'
 import userRouter from './src/routes/user.js'
 import countryRouter from './src/routes/country.js'
 import productRouter from './src/routes/product.js'
@@ -68,7 +68,5 @@ app.use(function (err, req, res, next) {
 app.listen(PORT, () => {
   console.log(`[NodeJS] app listening on port ${PORT}`)
 })
-
-console.log('test thu githup thoi nha')
 
 export default app
