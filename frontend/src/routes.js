@@ -17,6 +17,12 @@ const routes = [
     exact: false,
     component: null,
   },
+  {
+    path: '/vendors',
+    title: 'Vendors',
+    exact: false,
+    component: null,
+  },
 ]
 
 export default routes
