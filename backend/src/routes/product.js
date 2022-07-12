@@ -29,4 +29,6 @@ router.put(
 
 router.delete('/:id', Controller.delete)
 
+console.log("a");
 export default router
+
