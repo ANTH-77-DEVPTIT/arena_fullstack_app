@@ -4,6 +4,15 @@ import VendorModel from "../models/vendor.js"
 const include = [{ model: VendorModel, as: "vendor" }]
 
 export default {
+  count: async () => {
+    try {
+      const count =  await Model.count()
+      console.log(count);
+    } catch (error) {
+      throw error
+    }
+  },
+
   find: async ({page, limit}) => {
     try {
       const count = await Model.count();

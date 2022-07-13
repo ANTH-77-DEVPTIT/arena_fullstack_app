@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.get('/', Controller.find)
 router.get('/:id', Controller.findById)
+router.get('/count', Controller.count)
 router.post(
   '/', 
   MulterUpload.fields([

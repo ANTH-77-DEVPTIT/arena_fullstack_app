@@ -5,6 +5,14 @@ const PAGE = 1
 const LIMIT = 5
 
 export default {
+  count: async () => {
+    try {
+      return await Repository.count()
+    } catch (error) {
+      throw error
+    }
+  },
+
   find: async (req) => {
     try {
       const { page, limit } = req.query
