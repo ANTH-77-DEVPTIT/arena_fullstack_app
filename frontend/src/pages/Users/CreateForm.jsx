@@ -196,6 +196,16 @@ function CreateForm(props) {
     setFormData(_formData)
   }
 
+  //Array.from() allow you to create an array from an iterable or array-like object.
+  //provides a map function for convenience.
+  /**
+   * const name = "hungan"
+   * const strArr = Array.from(name, function (arr) { return arr.toUpperCase})
+   * 
+   * console.log(strArr)
+   * 
+   */
+
   const handleSubmit = () => {
     try {
       const { valid, data } = FormValidate.validateForm(formData)
