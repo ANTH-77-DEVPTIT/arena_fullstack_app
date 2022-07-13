@@ -6,20 +6,20 @@ const initialFormData = {
   title: {
     type: 'text',
     label: 'Title',
-    value:'',
+    value: '',
     error: '',
     required: true,
     validate: {
       trim: true,
       required: [true, 'Required'],
       minlength: [2, 'Too Short'],
-      maxlength: [100, 'Too Long']
+      maxlength: [100, 'Too Long'],
     },
-    autoFocus: true
+    autoFocus: true,
   },
   description: {
     type: 'text',
-    label: "Description",
+    label: 'Description',
     value: '',
     error: '',
     required: true,
@@ -27,30 +27,35 @@ const initialFormData = {
       trim: true,
       required: [true, 'Required'],
       minlength: [1, 'Too Short'],
-      maxlength: [255, "Too Long"],
-    }
+      maxlength: [255, 'Too Long'],
+    },
   },
   price: {
-    type: "number",
-    label: "Price",
-    value: "",
+    type: 'number',
+    label: 'Price',
+    value: '',
     error: '',
     required: true,
     validate: {
       trim: true,
       required: [true, 'Required'],
-      minlength: [1, "Too Short"],
-      maxlength: [1000000, 'Too Long']
-    }
+      minlength: [1, 'Too Short'],
+      maxlength: [1000000, 'Too Long'],
+    },
   },
   handle: {
-
+    type: '',
   },
   publish: {
     type: 'bool',
   },
   status: {
-
+    type: 'select',
+    label: 'Status',
+    error: '',
+    required: true,
+    validate: {},
+    option: [{ label: 'Select a status', value: '' }],
   },
   thumbnail: {
     type: 'file',
@@ -74,9 +79,8 @@ const initialFormData = {
     value: '',
     error: '',
     validate: {},
-    options: [{label: "Select a vendor", value: ''}]
+    options: [{ label: 'Select a vendor', value: '' }],
   },
-  
 }
 
 function CreateForm(props) {
@@ -86,7 +90,7 @@ function CreateForm(props) {
   return (
     <Stack>
       <Stack.Item>
-        <AppHeader title={created.id ? 'Edit Product' : 'Add Product' } onBack={onDiscard}/>
+        <AppHeader title={created.id ? 'Edit Product' : 'Add Product'} onBack={onDiscard} />
       </Stack.Item>
 
       <Stack.Item>HIHI</Stack.Item>
