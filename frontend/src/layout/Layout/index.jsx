@@ -1,6 +1,6 @@
 import { Stack, Navigation } from '@shopify/polaris'
 import { useLocation } from 'react-router-dom'
-import { HomeMinor, CustomersMinor, ProductsMinor } from '@shopify/polaris-icons'
+import { HomeMinor, CustomersMinor, ProductsMinor, InventoryMajor } from '@shopify/polaris-icons'
 import routes from '../../routes'
 
 function Layout(props) {
@@ -20,6 +20,10 @@ function Layout(props) {
 
       case '/products':
         return ProductsMinor
+        break
+
+      case '/vendors':
+        return InventoryMajor
         break
 
       default:

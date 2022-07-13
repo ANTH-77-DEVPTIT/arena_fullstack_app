@@ -185,7 +185,7 @@ function CreateForm(props) {
       delete _formData.password
       delete _formData.confirmPassword
     }
-
+    
     setFormData(_formData)
   }, [])
 

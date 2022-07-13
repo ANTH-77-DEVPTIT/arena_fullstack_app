@@ -80,6 +80,7 @@ const validateField = (fieldData) => {
  * @param {Object} formData
  * @returns Object
  */
+
 const validateForm = (formData) => {
   let _formData = formData ? JSON.parse(JSON.stringify(formData)) : {}
   let valid = true

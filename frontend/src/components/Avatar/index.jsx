@@ -10,7 +10,7 @@ Avatar.propTypes = {
 Avatar.defaultProps = {
   alt: '',
   src: '',
-  size: '2rem',
+  size: '2.5rem',
 }
 
 function Avatar(props) {

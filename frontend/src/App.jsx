@@ -5,6 +5,7 @@ import UsersPage from './pages/Users'
 import ProductsPage from './pages/Products'
 import { Page } from '@shopify/polaris'
 import routes from './routes.js'
+import Vendor from './pages/Vendor/Vendor'
 
 function App(props) {
   const renderElement = (path) => {
@@ -19,6 +20,10 @@ function App(props) {
 
       case '/products':
         return <ProductsPage {...props} />
+        break
+
+      case '/vendors':
+        return <Vendor {...props} />
         break
 
       default:
