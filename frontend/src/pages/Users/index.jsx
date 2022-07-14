@@ -1,4 +1,4 @@
-import { Button, Card, Stack } from '@shopify/polaris'
+import { Card, Stack } from '@shopify/polaris'
 import { useState, useEffect } from 'react'
 import CountryApi from '../../api/country'
 import UserApi from '../../api/user'
@@ -20,7 +20,7 @@ function UsersPage(props) {
 
   const getUsers = async ({ page, limit }) => {
     try {
-      actions.showAppLoading()
+      actions.showAppLoading() //run function showAppLoading. dispatch action showAppLoading into redux.
 
       let res = await UserApi.find({ page, limit })
       if (!res.success) {
@@ -61,6 +61,7 @@ function UsersPage(props) {
 
   useEffect(() => {
     if (!isReady && users && countries) {
+      //isReady ===true, co thong tin cua users and countries thi moi thuc hien
       setIsReady(true)
     }
   })

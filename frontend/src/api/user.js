@@ -30,10 +30,14 @@ const create = async (data) => {
 
 const update = async (id, data) => {
   const formData = new FormData()
+
+  //thằng photos nó là một mảng, nên tách nó ra xử lý sau
+  //đưa tất cả các thằng còn lại append vào formData
   Object.keys(data)
     .filter((name) => !['photos'].includes(name))
     .forEach((name) => formData.append(name, data[name]))
 
+  // xử lý đưa đừng thằng photos item append vào formData()
   if (data.photos?.length) {
     data.photos.forEach((item) => formData.append('photos', item))
   }

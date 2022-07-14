@@ -1,6 +1,20 @@
-import { Stack } from '@shopify/polaris'
-import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { Button, Card, Select, Stack } from '@shopify/polaris'
+import React, { useCallback, useEffect, useState } from 'react'
 import AppHeader from '../../components/AppHeader'
+import FormControl from '../../components/FormControl'
+
+CreateForm.propTypes = {
+  created: PropTypes.object,
+  onDiscard: PropTypes.func,
+  onSubmit: PropTypes.func,
+}
+
+CreateForm.defaultProps = {
+  created: {},
+  onDiscard: () => null,
+  onSubmit: () => null,
+}
 
 const initialFormData = {
   title: {
@@ -43,12 +57,12 @@ const initialFormData = {
       maxlength: [1000000, 'Too Long'],
     },
   },
-  handle: {
-    type: '',
-  },
-  publish: {
-    type: 'bool',
-  },
+  // handle: {
+  //   type: '',
+  // },
+  // publish: {
+  //   type: 'bool',
+  // },
   status: {
     type: 'select',
     label: 'Status',
@@ -84,17 +98,90 @@ const initialFormData = {
 }
 
 function CreateForm(props) {
-  const { actions, created, onDiscard, onSubmit } = props
+  const { actions, created, onDiscard, onSubmit, vendors } = props
 
-  const [formData, setFormData] = useState()
+  const [formData, setFormData] = useState(initialFormData)
+
+  const [selected, setSelected] = useState(formData.vendorId.options[1])
+
+  const handleSelectChange = useCallback((value) => setSelected(value), [])
+
+  useEffect(() => {
+    const _formData = JSON.parse(JSON.stringify(formData))
+
+    _formData.title.value = 'hung an'
+    _formData.description.value = 'hung an'
+    _formData.price.value = '1200'
+    // _formData.handle.value = 'p02'
+
+    const vendorOptions = vendors.map((vendor) => ({ label: vendor.name, value: '' + vendor.id }))
+
+    vendorOptions.unshift({ label: 'Select a vendor', value: '' })
+
+    _formData.vendorId.options = vendorOptions
+
+    setFormData(_formData)
+  }, [])
+
   return (
-    <Stack>
+    <Stack vertical alignment="fill">
       <Stack.Item>
         <AppHeader title={created.id ? 'Edit Product' : 'Add Product'} onBack={onDiscard} />
       </Stack.Item>
 
-      <Stack.Item>HIHI</Stack.Item>
-      <Stack.Item>HIHI</Stack.Item>
+      {/* <Stack.Item>
+        <Select
+          options={formData.vendorId.options}
+          onChange={handleSelectChange}
+          value={selected}
+        />
+      </Stack.Item> */}
+      <Stack.Item>
+        <Card sectioned>
+          <Stack vertical alignment="fill">
+            <Stack>
+              <Stack.Item fill>
+                <FormControl {...formData['title']} />
+              </Stack.Item>
+              <Stack.Item fill>
+                <FormControl {...formData['description']} />
+              </Stack.Item>
+            </Stack>
+
+            <Stack>
+              <Stack.Item fill>
+                <FormControl {...formData['price']} />
+              </Stack.Item>
+            </Stack>
+
+            <Stack>
+              <Stack.Item fill>
+                <Select
+                  options={formData.vendorId.options}
+                  onChange={handleSelectChange}
+                  value={selected}
+                />
+              </Stack.Item>
+            </Stack>
+
+            {/* <Stack>
+              <Stack.Item fill>
+                <FormControl {...formData['thumbnail']} />
+              </Stack.Item>
+              <Stack.Item fill>
+                <FormControl {...formData['images']} />
+              </Stack.Item>
+            </Stack> */}
+          </Stack>
+        </Card>
+      </Stack.Item>
+
+      <Stack.Item>
+        <Stack distribution="trailing">
+          <Button>Discard</Button>
+          <Button primary>{created.id ? 'Save' : 'Add user'}</Button>
+        </Stack>
+      </Stack.Item>
     </Stack>
   )
 }

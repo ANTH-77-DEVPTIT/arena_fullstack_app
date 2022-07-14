@@ -155,17 +155,24 @@ function CreateForm(props) {
   const [formData, setFormData] = useState(initialFormData)
 
   useEffect(() => {
+    //server nhan data la mot string. JSON.stringify convert JS object into String and gui ve cho server
+    //server tra ra cho client cung la mot string. JSON.parse to convert String into JS object and render into view.
     let _formData = JSON.parse(JSON.stringify(initialFormData))
+
+    /**
+     * ? typeof initialForm : object,
+     * why did you do convert Object to String and reverse convert(String into Obj) _formData
+     */
 
     /**
      * test
      */
-    _formData.firstName.value = 'david'
-    _formData.lastName.value = 'pham'
-    _formData.username.value = `david-pham-${Date.now()}`
-    _formData.email.value = `david-pham-${Date.now()}@gmail.com`
-    _formData.password.value = '12345678'
-    _formData.confirmPassword.value = '12345678'
+    // _formData.firstName.value = 'david'
+    // _formData.lastName.value = 'pham'
+    // _formData.username.value = `david-pham-${Date.now()}`
+    // _formData.email.value = `david-pham-${Date.now()}@gmail.com`
+    // _formData.password.value = '12345678'
+    // _formData.confirmPassword.value = '12345678'
 
     if (countries.length) {
       let countryOptions = countries.map((item) => ({ label: item.name, value: '' + item.id }))
@@ -185,7 +192,7 @@ function CreateForm(props) {
       delete _formData.password
       delete _formData.confirmPassword
     }
-    
+
     setFormData(_formData)
   }, [])
 
@@ -201,9 +208,9 @@ function CreateForm(props) {
   /**
    * const name = "hungan"
    * const strArr = Array.from(name, function (arr) { return arr.toUpperCase})
-   * 
+   *
    * console.log(strArr)
-   * 
+   *
    */
 
   const handleSubmit = () => {
@@ -346,7 +353,7 @@ function CreateForm(props) {
         <Stack distribution="trailing">
           <Button onClick={onDiscard}>Discard</Button>
           <Button primary onClick={handleSubmit}>
-            {created.id ? 'Save' : 'Add'}
+            {created.id ? 'Save' : 'Add user'}
           </Button>
         </Stack>
       </Stack.Item>

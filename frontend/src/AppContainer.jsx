@@ -9,7 +9,9 @@ function AppContainer(props) {
   const dispatch = useDispatch()
 
   const appLoading = useSelector(selectAppLoading)
+  //const appLoading = useSelector(state => state.appLoading)
   const notify = useSelector(selectNotify)
+  //cosnt notify = useSeletor(state => state.notify)
 
   const reduxState = { appLoading, notify }
   const reduxActions = {

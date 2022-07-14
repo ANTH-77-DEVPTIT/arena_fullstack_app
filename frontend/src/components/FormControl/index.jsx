@@ -3,6 +3,11 @@ import { RadioButton, Select, Stack, TextField } from '@shopify/polaris'
 import MyDropZoneMultiple from '../MyDropZoneMultiple'
 import MyDropZoneSingle from '../MyDropZoneSingle'
 
+//kiem tra duoc cac kieu du lieu ma component nhan duoc
+//biet ro duoc cac loai du lieu cua props truyen vao cho dung
+//nay la proptype trong reactjs nhes
+//no da duoc tach ra tu version react 15.5
+//tich hop trong prop-types npm de thay the trong reactjs
 FormControl.propTypes = {
   type: PropTypes.oneOf(['text', 'password', 'date', 'radio', 'select', 'file']),
   label: PropTypes.string,
@@ -17,7 +22,16 @@ FormControl.propTypes = {
   required: PropTypes.bool,
   allowMultiple: PropTypes.bool,
 }
-
+/**
+ * https://vi.reactjs.org/docs/typechecking-with-proptypes.html
+ *
+ * prop-types: validator data nhan vao la valid
+ * neu khong thi no se warning.
+ * //khai bao cac kieu du lieu trong JS: array, bool, func, obk, string, symbol, element, component,
+ * PropTypes.instancesOf(): Khai bao cho no vi du nhu la mot class
+ * PropTypes.oneOf(['','','','',...]) gioi han cu the gia tri truyen vao
+ */
+//dat gia tri mac dinh cho props thong qua defaultProps
 FormControl.defaultProps = {
   type: 'text',
   label: '',
