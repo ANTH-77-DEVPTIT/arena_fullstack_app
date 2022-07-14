@@ -4,7 +4,7 @@ import Joi from "joi"
 const schemaProduct = {
     title: Joi.string().min(1).max(100).required(),
     description: Joi.string().min(1).max(255).required(),
-    handle: Joi.string().alphanum().min(1).max(255).required(),
+    handle: Joi.string().alphanum().min(1).max(30).required(),
     price: Joi.number().integer().min(1).max(1000000),
     publish: Joi.boolean(),
     status: Joi.any(),

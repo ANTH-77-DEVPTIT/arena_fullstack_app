@@ -268,6 +268,7 @@ function CreateForm(props) {
                 </Stack.Item>
               </Stack>
             </Stack.Item>
+
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
@@ -284,6 +285,7 @@ function CreateForm(props) {
                 </Stack.Item>
               </Stack>
             </Stack.Item>
+
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
@@ -300,6 +302,7 @@ function CreateForm(props) {
                 </Stack.Item>
               </Stack>
             </Stack.Item>
+
             {!created.id && (
               <Stack.Item>
                 <Stack>
@@ -318,6 +321,7 @@ function CreateForm(props) {
                 </Stack>
               </Stack.Item>
             )}
+
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
@@ -329,6 +333,7 @@ function CreateForm(props) {
                 <Stack.Item fill></Stack.Item>
               </Stack>
             </Stack.Item>
+            
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
