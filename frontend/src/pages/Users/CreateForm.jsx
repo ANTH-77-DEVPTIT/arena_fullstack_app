@@ -167,12 +167,12 @@ function CreateForm(props) {
     /**
      * test
      */
-    // _formData.firstName.value = 'david'
-    // _formData.lastName.value = 'pham'
-    // _formData.username.value = `david-pham-${Date.now()}`
-    // _formData.email.value = `david-pham-${Date.now()}@gmail.com`
-    // _formData.password.value = '12345678'
-    // _formData.confirmPassword.value = '12345678'
+    _formData.firstName.value = 'david'
+    _formData.lastName.value = 'pham'
+    _formData.username.value = `david-pham-${Date.now()}`
+    _formData.email.value = `david-pham-${Date.now()}@gmail.com`
+    _formData.password.value = '12345678'
+    _formData.confirmPassword.value = '12345678'
 
     if (countries.length) {
       let countryOptions = countries.map((item) => ({ label: item.name, value: '' + item.id }))
@@ -231,6 +231,7 @@ function CreateForm(props) {
         data['avatar'].value = formData['avatar'].value
         data['photos'].value = formData['photos'].value
 
+        console.log(data)
         onSubmit(data)
       } else {
         setFormData(data)
@@ -333,7 +334,7 @@ function CreateForm(props) {
                 <Stack.Item fill></Stack.Item>
               </Stack>
             </Stack.Item>
-            
+
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>

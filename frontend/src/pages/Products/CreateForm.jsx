@@ -3,17 +3,20 @@ import { Button, Card, Select, Stack } from '@shopify/polaris'
 import React, { useCallback, useEffect, useState } from 'react'
 import AppHeader from '../../components/AppHeader'
 import FormControl from '../../components/FormControl'
+import FormValidate from '../../helpers/formValidate'
 
 CreateForm.propTypes = {
   created: PropTypes.object,
   onDiscard: PropTypes.func,
   onSubmit: PropTypes.func,
+  vendors: PropTypes.array,
 }
 
 CreateForm.defaultProps = {
   created: {},
   onDiscard: () => null,
   onSubmit: () => null,
+  vendors: [],
 }
 
 const initialFormData = {
@@ -66,7 +69,7 @@ const initialFormData = {
     validate: {
       trim: true,
       required: [true, 'Required'],
-      minlength: [1, 'Too Short'],
+      minlength: [2, 'Too Short'],
       maxlength: [30, 'Too Long'],
     },
   },
@@ -88,7 +91,7 @@ const initialFormData = {
     ],
   },
   status: {
-    type: 'radio',
+    type: 'select',
     label: 'Status',
     value: false,
     error: '',
@@ -116,26 +119,41 @@ const initialFormData = {
     validate: {},
     options: [{ label: 'Select a vendor', value: '' }],
   },
+  thumbnail: {
+    type: 'file',
+    label: 'Thumbnail',
+    value: null,
+    error: '',
+    validate: {},
+    allowMultiple: false,
+  },
+  images: {
+    type: 'file',
+    label: 'Images',
+    value: [],
+    error: '',
+    validate: {},
+    allowMultiple: true,
+  },
 }
 
 function CreateForm(props) {
   const { actions, created, onDiscard, onSubmit, vendors } = props
 
   const [formData, setFormData] = useState(initialFormData)
-
   const [vendor, setVendor] = useState(formData.vendorId.options[1])
-  const [status, setStatus] = useState(formData.status.options[1])
 
   const handleSelectVendorChange = useCallback((value) => setVendor(value), [])
 
-  const handleSelectStatusChange = useCallback((value) => setStatus(value), [])
   useEffect(() => {
     const _formData = JSON.parse(JSON.stringify(formData))
 
-    _formData.title.value = 'hung an'
-    _formData.description.value = 'hung an'
+    _formData.title.value = 'pr01'
+    _formData.description.value = 'pr01'
     _formData.price.value = '1200'
-    _formData.handle.value = 'p02'
+    _formData.handle.value = 'different'
+    // _formData.vendorId.value = '1'
+    // _formData.status.value = 'ACTIVE'
 
     const vendorOptions = vendors.map((vendor) => ({ label: vendor.name, value: '' + vendor.id }))
 
@@ -146,13 +164,35 @@ function CreateForm(props) {
     setFormData(_formData)
   }, [])
 
-  // const optionsStatus = [
-  //   { label: "ACTIVE", value: "ACTIVE" },
-  //   { label: "DRAFT", value: "DRAFT" },
-  //   { label: "ARCHIVED", value: "ARCHIVED" },
-  // ]
-  //test cho nay thu nha
-  //test tiep
+  const handleChange = (name, value) => {
+    let _formData = JSON.parse(JSON.stringify(formData))
+    Array.from(['thumbnail', 'images']).forEach((key) => (_formData[key] = formData[key]))
+
+    // rest operator: lay ra tat ca cac thang con lai
+    // spread: clone array hay obj ra va ghi gia tri moi vao
+    _formData[name] = { ..._formData[name], value, error: '' }
+    setFormData(_formData)
+  }
+
+  const handleSubmit = () => {
+    try {
+      const { valid, data } = FormValidate.validateForm(formData)
+
+      if (valid) {
+        data['thumbnail'].value = formData['thumbnail'].value
+        data['images'].value = formData['images'].value
+
+        console.log(data)
+        onSubmit(data)
+      } else {
+        setFormData(data)
+        throw new Error('Invalid form data')
+      }
+    } catch (error) {
+      console.log(error)
+      actions.showNotify({ error: true, message: error.message })
+    }
+  }
 
   return (
     <Stack vertical alignment="fill">
@@ -166,21 +206,16 @@ function CreateForm(props) {
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
-                  <FormControl {...formData['title']} />
+                  <FormControl
+                    {...formData['title']}
+                    onChange={(value) => handleChange('title', value)}
+                  />
                 </Stack.Item>
                 <Stack.Item fill>
-                  <FormControl {...formData['description']} />
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
-
-            <Stack.Item>
-              <Stack>
-                <Stack.Item fill>
-                  <FormControl {...formData['handle']} />
-                </Stack.Item>
-                <Stack.Item fill>
-                  <FormControl {...formData['price']} />
+                  <FormControl
+                    {...formData['description']}
+                    onChange={(value) => handleChange('description', value)}
+                  />
                 </Stack.Item>
               </Stack>
             </Stack.Item>
@@ -188,10 +223,33 @@ function CreateForm(props) {
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
-                  <FormControl {...formData['publish']} />
+                  <FormControl
+                    {...formData['handle']}
+                    onChange={(value) => handleChange('handle', value)}
+                  />
                 </Stack.Item>
                 <Stack.Item fill>
-                  <FormControl {...formData['status']} />
+                  <FormControl
+                    {...formData['price']}
+                    onChange={(value) => handleChange('price', value)}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
+
+            <Stack.Item>
+              <Stack>
+                <Stack.Item>
+                  <FormControl
+                    {...formData['publish']}
+                    onChange={(value) => handleChange('publish', value)}
+                  />
+                </Stack.Item>
+                <Stack.Item fill>
+                  <FormControl
+                    {...formData['status']}
+                    onChange={(value) => handleChange('status', value)}
+                  />
                 </Stack.Item>
               </Stack>
             </Stack.Item>
@@ -199,7 +257,27 @@ function CreateForm(props) {
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
-                  <Select {...formData['vendorId']} />
+                  <FormControl
+                    {...formData['vendorId']}
+                    onChange={(value) => handleChange('vendorId', value)}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
+
+            <Stack.Item>
+              <Stack>
+                <Stack.Item fill>
+                  <FormControl
+                    {...formData['thumbnail']}
+                    onChange={(value) => handleChange('thumbnail', value)}
+                  />
+                </Stack.Item>
+                <Stack.Item fill>
+                  <FormControl
+                    {...formData['images']}
+                    onChange={(value) => handleChange('images', value)}
+                  />
                 </Stack.Item>
               </Stack>
             </Stack.Item>
@@ -209,8 +287,10 @@ function CreateForm(props) {
 
       <Stack.Item>
         <Stack distribution="trailing">
-          <Button>Discard</Button>
-          <Button primary>{created.id ? 'Save' : 'Add Product'}</Button>
+          <Button onClick={onDiscard}>Discard</Button>
+          <Button primary onClick={handleSubmit}>
+            {created.id ? 'Save' : 'Add Product'}
+          </Button>
         </Stack>
       </Stack.Item>
     </Stack>

@@ -63,7 +63,37 @@ function ProductsPage(props) {
     }
   })
 
-  const handleSubmit = () => {}
+  const handleSubmit = async (dataProduct) => {
+    try {
+      actions.showAppLoading()
+
+      let data = {}
+      Object.keys(dataProduct).forEach((key) =>
+        dataProduct[key].value ? (data[key] = dataProduct[key].value) : null,
+      )
+      let res = null
+
+      if (created?.id) {
+        console.log('updated')
+      } else {
+        res = await ProductApi.create(data)
+      }
+
+      if (!res.success) {
+        throw res.error
+      }
+
+      actions.showNotify({ message: 'Added' })
+
+      setCreated(null)
+      getProducts({})
+    } catch (error) {
+      console.log(error)
+      actions.showNotify({ error: true, message: error.message })
+    } finally {
+      actions.hideAppLoading()
+    }
+  }
 
   const handleDelete = async () => {
     try {
@@ -97,7 +127,7 @@ function ProductsPage(props) {
         {...props}
         created={created}
         onDiscard={() => setCreated(null)}
-        onSubmit={() => handleSubmit()}
+        onSubmit={handleSubmit}
         vendors={vendors}
       />
     )

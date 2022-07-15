@@ -13,6 +13,7 @@ const validateField = (fieldData) => {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]
 
+      //get 2 field value and validate in _fieldData
       const { value, validate } = _fieldData
 
       switch (key) {
@@ -92,6 +93,8 @@ const validateForm = (formData) => {
       let key = keys[i]
 
       const fieldValidate = validateField(_formData[key])
+
+      //gan gia tri da validate lai cho _formData
       _formData[key] = fieldValidate.data
       if (valid && !fieldValidate.valid) {
         valid = false

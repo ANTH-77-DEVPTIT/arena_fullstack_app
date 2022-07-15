@@ -20,8 +20,7 @@ export default {
       let _page = parseInt(page) ? parseInt(page) : PAGE
       let _limit = parseInt(limit) ? parseInt(limit) : LIMIT
 
-
-      return await Repository.find({page: _page, limit: _limit})
+      return await Repository.find({ page: _page, limit: _limit })
     } catch (error) {
       throw error
     }
@@ -29,7 +28,7 @@ export default {
 
   findById: async (req) => {
     try {
-      const {id} = req.params
+      const { id } = req.params
       return await Repository.findById(id)
     } catch (error) {
       throw error
@@ -38,9 +37,9 @@ export default {
 
   create: async (req) => {
     try {
-      const data = {  ...req.body }
+      const data = { ...req.body }
 
-      if(req.files.thumbnail) {
+      if (req.files.thumbnail) {
         let file = await CloudinaryUploader.upload(req.files.thumbnail[0])
 
         data.thumbnail = file.secure_url
@@ -48,15 +47,14 @@ export default {
         data.thumbnail = ''
       }
 
-      if(req.files.images) {
-          let files = []
-          for(let i=0; i < req.files.images.length; i++) {
-            let file = await CloudinaryUploader.upload(req.files.images[i])
-            files.push(file)
-          }
-          data.images = files.map(item => item.secure_url)
-      }
-      else {
+      if (req.files.images) {
+        let files = []
+        for (let i = 0; i < req.files.images.length; i++) {
+          let file = await CloudinaryUploader.upload(req.files.images[i])
+          files.push(file)
+        }
+        data.images = files.map((item) => item.secure_url)
+      } else {
         data.images = []
       }
       return await Repository.create(data)
@@ -67,10 +65,10 @@ export default {
 
   update: async (req) => {
     try {
-      const {id} = req.params
+      const { id } = req.params
       const data = { ...req.body }
 
-      if(req.files.thumbnail) {
+      if (req.files.thumbnail) {
         let file = await CloudinaryUploader.upload(req.files.thumbnail[0])
 
         data.thumbnail = file.secure_url
@@ -78,15 +76,14 @@ export default {
         data.thumbnail = ''
       }
 
-      if(req.files.images) {
-          let files = []
-          for(let i=0; i < req.files.images.length; i++) {
-            let file = await CloudinaryUploader.upload(req.files.images[i])
-            files.push(file)
-          }
-          data.images = files.map(item => item.secure_url)
-      }
-      else {
+      if (req.files.images) {
+        let files = []
+        for (let i = 0; i < req.files.images.length; i++) {
+          let file = await CloudinaryUploader.upload(req.files.images[i])
+          files.push(file)
+        }
+        data.images = files.map((item) => item.secure_url)
+      } else {
         data.images = []
       }
 
@@ -98,7 +95,7 @@ export default {
 
   delete: async (req) => {
     try {
-      const {id} = req.params
+      const { id } = req.params
       return await Repository.delete(id)
     } catch (error) {
       throw error
