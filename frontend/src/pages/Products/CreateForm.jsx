@@ -57,12 +57,32 @@ const initialFormData = {
       maxlength: [1000000, 'Too Long'],
     },
   },
-  // handle: {
-  //   type: '',
-  // },
-  // publish: {
-  //   type: 'bool',
-  // },
+  handle: {
+    type: 'text',
+    label: 'Handle',
+    value: '',
+    error: '',
+    required: true,
+    validate: {
+      trim: true,
+      required: [true, 'Required'],
+      minlength: [1, 'Too Short'],
+      maxlength: [1000000, 'Too Long'],
+    },
+  },
+  publish: {
+    type: 'text',
+    label: 'Handle',
+    value: '',
+    error: '',
+    required: true,
+    validate: {
+      trim: true,
+      required: [true, 'Required'],
+      minlength: [1, 'Too Short'],
+      maxlength: [1000000, 'Too Long'],
+    },
+  },
   status: {
     type: 'select',
     label: 'Status',
@@ -129,13 +149,6 @@ function CreateForm(props) {
         <AppHeader title={created.id ? 'Edit Product' : 'Add Product'} onBack={onDiscard} />
       </Stack.Item>
 
-      {/* <Stack.Item>
-        <Select
-          options={formData.vendorId.options}
-          onChange={handleSelectChange}
-          value={selected}
-        />
-      </Stack.Item> */}
       <Stack.Item>
         <Card sectioned>
           <Stack vertical alignment="fill">
