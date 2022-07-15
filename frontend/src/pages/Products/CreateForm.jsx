@@ -45,7 +45,7 @@ const initialFormData = {
     },
   },
   price: {
-    type: 'number',
+    type: 'text',
     label: 'Price',
     value: '',
     error: '',
@@ -67,45 +67,46 @@ const initialFormData = {
       trim: true,
       required: [true, 'Required'],
       minlength: [1, 'Too Short'],
-      maxlength: [1000000, 'Too Long'],
+      maxlength: [30, 'Too Long'],
     },
   },
   publish: {
-    type: 'text',
-    label: 'Handle',
-    value: '',
+    type: 'radio',
+    label: 'Publish',
+    value: false,
     error: '',
-    required: true,
-    validate: {
-      trim: true,
-      required: [true, 'Required'],
-      minlength: [1, 'Too Short'],
-      maxlength: [1000000, 'Too Long'],
-    },
+    validate: {},
+    options: [
+      {
+        label: 'Publish',
+        value: true,
+      },
+      {
+        label: 'Private',
+        value: false,
+      },
+    ],
   },
   status: {
-    type: 'select',
+    type: 'radio',
     label: 'Status',
-    error: '',
-    required: true,
-    validate: {},
-    option: [{ label: 'Select a status', value: '' }],
-  },
-  thumbnail: {
-    type: 'file',
-    label: 'Avatar',
-    value: '',
+    value: false,
     error: '',
     validate: {},
-    allowMultiple: false,
-  },
-  images: {
-    type: 'file',
-    label: 'Images',
-    value: '',
-    error: '',
-    validate: {},
-    allowMultiple: true,
+    options: [
+      {
+        label: 'Active',
+        value: 'ACTIVE',
+      },
+      {
+        label: 'DRAFT',
+        value: 'DRAFT',
+      },
+      {
+        label: 'ARCHIVED',
+        value: 'ARCHIVED',
+      },
+    ],
   },
   vendorId: {
     type: 'select',
@@ -122,17 +123,19 @@ function CreateForm(props) {
 
   const [formData, setFormData] = useState(initialFormData)
 
-  const [selected, setSelected] = useState(formData.vendorId.options[1])
+  const [vendor, setVendor] = useState(formData.vendorId.options[1])
+  const [status, setStatus] = useState(formData.status.options[1])
 
-  const handleSelectChange = useCallback((value) => setSelected(value), [])
+  const handleSelectVendorChange = useCallback((value) => setVendor(value), [])
 
+  const handleSelectStatusChange = useCallback((value) => setStatus(value), [])
   useEffect(() => {
     const _formData = JSON.parse(JSON.stringify(formData))
 
     _formData.title.value = 'hung an'
     _formData.description.value = 'hung an'
     _formData.price.value = '1200'
-    // _formData.handle.value = 'p02'
+    _formData.handle.value = 'p02'
 
     const vendorOptions = vendors.map((vendor) => ({ label: vendor.name, value: '' + vendor.id }))
 
@@ -143,48 +146,63 @@ function CreateForm(props) {
     setFormData(_formData)
   }, [])
 
+  // const optionsStatus = [
+  //   { label: "ACTIVE", value: "ACTIVE" },
+  //   { label: "DRAFT", value: "DRAFT" },
+  //   { label: "ARCHIVED", value: "ARCHIVED" },
+  // ]
+  //test cho nay thu nha
+  //test tiep
+
   return (
     <Stack vertical alignment="fill">
       <Stack.Item>
-        <AppHeader title={created.id ? 'Edit Product' : 'Add Product'} onBack={onDiscard} />
+        <AppHeader title={created.id ? 'Edit user' : 'Add product'} onBack={onDiscard} />
       </Stack.Item>
 
       <Stack.Item>
         <Card sectioned>
           <Stack vertical alignment="fill">
-            <Stack>
-              <Stack.Item fill>
-                <FormControl {...formData['title']} />
-              </Stack.Item>
-              <Stack.Item fill>
-                <FormControl {...formData['description']} />
-              </Stack.Item>
-            </Stack>
+            <Stack.Item>
+              <Stack>
+                <Stack.Item fill>
+                  <FormControl {...formData['title']} />
+                </Stack.Item>
+                <Stack.Item fill>
+                  <FormControl {...formData['description']} />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
 
-            <Stack>
-              <Stack.Item fill>
-                <FormControl {...formData['price']} />
-              </Stack.Item>
-            </Stack>
+            <Stack.Item>
+              <Stack>
+                <Stack.Item fill>
+                  <FormControl {...formData['handle']} />
+                </Stack.Item>
+                <Stack.Item fill>
+                  <FormControl {...formData['price']} />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
 
-            <Stack>
-              <Stack.Item fill>
-                <Select
-                  options={formData.vendorId.options}
-                  onChange={handleSelectChange}
-                  value={selected}
-                />
-              </Stack.Item>
-            </Stack>
+            <Stack.Item>
+              <Stack>
+                <Stack.Item fill>
+                  <FormControl {...formData['publish']} />
+                </Stack.Item>
+                <Stack.Item fill>
+                  <FormControl {...formData['status']} />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
 
-            {/* <Stack>
-              <Stack.Item fill>
-                <FormControl {...formData['thumbnail']} />
-              </Stack.Item>
-              <Stack.Item fill>
-                <FormControl {...formData['images']} />
-              </Stack.Item>
-            </Stack> */}
+            <Stack.Item>
+              <Stack>
+                <Stack.Item fill>
+                  <Select {...formData['vendorId']} />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
           </Stack>
         </Card>
       </Stack.Item>
@@ -192,7 +210,7 @@ function CreateForm(props) {
       <Stack.Item>
         <Stack distribution="trailing">
           <Button>Discard</Button>
-          <Button primary>{created.id ? 'Save' : 'Add user'}</Button>
+          <Button primary>{created.id ? 'Save' : 'Add Product'}</Button>
         </Stack>
       </Stack.Item>
     </Stack>
