@@ -148,10 +148,10 @@ function CreateForm(props) {
   useEffect(() => {
     const _formData = JSON.parse(JSON.stringify(formData))
 
-    _formData.title.value = 'pr01'
-    _formData.description.value = 'pr01'
-    _formData.price.value = '1200'
-    _formData.handle.value = 'different'
+    // _formData.title.value = 'pr01'
+    // _formData.description.value = 'pr01'
+    // _formData.price.value = '1200'
+    // _formData.handle.value = 'different'
     // _formData.vendorId.value = '1'
     // _formData.status.value = 'ACTIVE'
 
@@ -160,6 +160,18 @@ function CreateForm(props) {
     vendorOptions.unshift({ label: 'Select a vendor', value: '' })
 
     _formData.vendorId.options = vendorOptions
+
+    //if have value edit. set value into input and edit
+    if(created.id) {
+      console.log(created);
+      Array.from(['title', 'description', 'price', 'handle', 'status', 'vendorId']).map(
+        (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '')}) //spread operator clone obj and updated value
+      )
+      Array.from(['publish']).map(
+        (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '')})
+      )
+    }
+
 
     setFormData(_formData)
   }, [])

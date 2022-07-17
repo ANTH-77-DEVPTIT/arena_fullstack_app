@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { ActionList, Button, Pagination, Popover, Stack } from '@shopify/polaris'
 import { useEffect } from 'react'
 
+//define dataType
 MyPagination.propTypes = {
   page: PropTypes.number,
   limit: PropTypes.number,
