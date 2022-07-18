@@ -8,27 +8,10 @@ const router = express.Router()
 router.get('/', Controller.find)
 router.get('/:id', Controller.findById)
 router.get('/count', Controller.count)
-router.post(
-  '/',
-  MulterUpload.fields([
-    { name: 'thumbnail', maxCount: 1 },
-    { name: 'images', maxCount: 10 },
-  ]),
-  ProductValidator.create,
-  Controller.create,
-)
+router.post('/', ProductValidator.create, Controller.create)
 
-router.put(
-  '/:id',
-  MulterUpload.fields([
-    { name: 'thumbnail', maxCount: 1 },
-    { name: 'images', maxCount: 10 },
-  ]),
-  ProductValidator.update,
-  Controller.update,
-)
+router.put('/:id', ProductValidator.update, Controller.update)
 
 router.delete('/:id', Controller.delete)
 
-console.log('a')
 export default router

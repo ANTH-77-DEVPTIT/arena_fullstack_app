@@ -15,7 +15,6 @@ const create = async (data) => {
   const formData = new FormData()
 
   const nameObj = Object.keys(data)
-  console.log(data)
 
   nameObj
     .filter((name) => !['images'].includes(name))
