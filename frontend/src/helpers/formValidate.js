@@ -86,6 +86,8 @@ const validateForm = (formData) => {
   let _formData = formData ? JSON.parse(JSON.stringify(formData)) : {}
   let valid = true
 
+  console.log(_formData)
+
   try {
     const keys = Object.keys(_formData)
 

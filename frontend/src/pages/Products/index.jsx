@@ -63,18 +63,19 @@ function ProductsPage(props) {
     }
   })
 
-  const handleSubmit = async (dataProduct) => {
+  const handleSubmit = async (formData) => {
     try {
       actions.showAppLoading()
 
       let data = {}
-      Object.keys(dataProduct).forEach((key) =>
-        dataProduct[key].value ? (data[key] = dataProduct[key].value) : null,
+      Object.keys(formData).forEach((key) =>
+        formData[key].value ? (data[key] = formData[key].value) : null,
       )
       let res = null
 
       if (created?.id) {
-        console.log('updated')
+        res = await ProductApi.update(created.id, data)
+        // console.log('data :>> ', data)
       } else {
         res = await ProductApi.create(data)
       }
@@ -83,7 +84,7 @@ function ProductsPage(props) {
         throw res.error
       }
 
-      actions.showNotify({ message: 'Added' })
+      actions.showNotify({ message: created?.id ? 'Saved' : 'Added' })
 
       setCreated(null)
       getProducts({})
@@ -120,6 +121,7 @@ function ProductsPage(props) {
   if (!isReady) {
     return <PagePreloader />
   }
+  console.log('products', products)
 
   if (created) {
     return (

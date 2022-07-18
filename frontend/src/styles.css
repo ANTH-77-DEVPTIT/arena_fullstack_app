@@ -29,3 +29,46 @@ code {
 b {
   font-weight: 600 !important;
 }
+
+.thumbnail {
+  position: relative;
+}
+
+.thumbnail img {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.images {
+  position: relative;
+}
+
+.images img {
+  width: 180px;
+  height: auto;
+  border-radius: 10px;
+  margin: 0 10px;
+}
+
+.checkbox__thumbnail {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(231, 117, 117);
+  border-radius: 5px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.checkbox__images {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(231, 117, 117);
+  border-radius: 5px;
+  position: absolute;
+  top: 5px;
+  left: 14px;
+}
+
+/* absolute: so voi thang relative chua no.  Fixed thi cha no la thang trinh duyet */

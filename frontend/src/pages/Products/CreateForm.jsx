@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Button, Card, Select, Stack } from '@shopify/polaris'
+import { Button, Card, Grid, Heading, Stack } from '@shopify/polaris'
 import React, { useCallback, useEffect, useState } from 'react'
 import AppHeader from '../../components/AppHeader'
 import FormControl from '../../components/FormControl'
@@ -148,12 +148,11 @@ function CreateForm(props) {
   useEffect(() => {
     const _formData = JSON.parse(JSON.stringify(formData))
 
-    // _formData.title.value = 'pr01'
-    // _formData.description.value = 'pr01'
-    // _formData.price.value = '1200'
-    // _formData.handle.value = 'different'
-    // _formData.vendorId.value = '1'
-    // _formData.status.value = 'ACTIVE'
+    _formData.title.value = 'pr02'
+    _formData.description.value = 'pr01'
+    _formData.price.value = '1200'
+    _formData.handle.value = `auto-generated data`
+    _formData.status.value = 'ACTIVE'
 
     const vendorOptions = vendors.map((vendor) => ({ label: vendor.name, value: '' + vendor.id }))
 
@@ -162,16 +161,14 @@ function CreateForm(props) {
     _formData.vendorId.options = vendorOptions
 
     //if have value edit. set value into input and edit
-    if(created.id) {
-      console.log(created);
+    if (created.id) {
       Array.from(['title', 'description', 'price', 'handle', 'status', 'vendorId']).map(
-        (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '')}) //spread operator clone obj and updated value
+        (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '') }), //spread operator clone obj and updated value
       )
       Array.from(['publish']).map(
-        (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '')})
+        (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '') }),
       )
     }
-
 
     setFormData(_formData)
   }, [])
@@ -194,7 +191,6 @@ function CreateForm(props) {
         data['thumbnail'].value = formData['thumbnail'].value
         data['images'].value = formData['images'].value
 
-        console.log(data)
         onSubmit(data)
       } else {
         setFormData(data)
@@ -234,12 +230,22 @@ function CreateForm(props) {
 
             <Stack.Item>
               <Stack>
-                <Stack.Item fill>
-                  <FormControl
-                    {...formData['handle']}
-                    onChange={(value) => handleChange('handle', value)}
-                  />
-                </Stack.Item>
+                {created?.id ? (
+                  <Stack.Item fill>
+                    <FormControl
+                      {...formData['handle']}
+                      onChange={(value) => handleChange('handle', value)}
+                    />
+                  </Stack.Item>
+                ) : (
+                  <Stack.Item fill>
+                    <FormControl
+                      {...formData['handle']}
+                      disabled
+                      onChange={(value) => handleChange('handle', value)}
+                    />
+                  </Stack.Item>
+                )}
                 <Stack.Item fill>
                   <FormControl
                     {...formData['price']}
@@ -276,6 +282,45 @@ function CreateForm(props) {
                 </Stack.Item>
               </Stack>
             </Stack.Item>
+
+            {created?.id ? (
+              <Stack>
+                <Stack.Item fill>
+                  <Grid>
+                    <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                      <Card title="Thumbnail" sectioned>
+                        {!created.thumbnail ? (
+                          <Heading>No Thumbnail selected!</Heading>
+                        ) : (
+                          <div className="thumbnail">
+                            <div className="checkbox__thumbnail"></div>
+                            <img src={created.thumbnail} alt="Thumbnail ne" />
+                          </div>
+                        )}
+                      </Card>
+                    </Grid.Cell>
+                    <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                      <Card title="Images" sectioned>
+                        {created.images.length === 0 ? (
+                          <Heading>No Images Selected!</Heading>
+                        ) : (
+                          created.images.map((item, index) => {
+                            return (
+                              <div className="images" key={index}>
+                                <div className="checkbox__images"></div>
+                                <img src={item} alt="image ne" />
+                              </div>
+                            )
+                          })
+                        )}
+                      </Card>
+                    </Grid.Cell>
+                  </Grid>
+                </Stack.Item>
+              </Stack>
+            ) : (
+              ''
+            )}
 
             <Stack.Item>
               <Stack>
