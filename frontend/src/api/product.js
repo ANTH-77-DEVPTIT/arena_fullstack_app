@@ -12,37 +12,23 @@ const findById = async (id) => {
 }
 
 const create = async (data) => {
-  const formData = new FormData()
-
-  const nameObj = Object.keys(data)
-
-  nameObj
-    .filter((name) => !['images'].includes(name))
-    .forEach((name) => {
-      return formData.append(name, data[name])
-    })
-
-  if (data.images?.length) {
-    data.images.forEach((item) => formData.append('images', item))
-  }
-
-  return await apiCaller(`/api/products`, 'POST', formData, {
-    'Content-Type': 'multipart/form-data',
-  })
+  return await apiCaller(`/api/products`, 'POST', data)
 }
 
 const update = async (id, data) => {
-  const formData = new FormData()
+  // const formData = new FormData()
 
-  Object.keys(data)
-    .filter((name) => !['images'].includes(name))
-    .forEach((name) => formData.append(name, data[name]))
+  // Object.keys(data)
+  //   .filter((name) => !['images'].includes(name))
+  //   .forEach((name) => formData.append(name, data[name]))
 
-  if (data.images?.length) {
-    data.images.forEach((item) => formData.append('images', item))
-  }
+  // if (data.images?.length) {
+  //   data.images.forEach((item) => formData.append('images', item))
+  // }
 
-  return await apiCaller(`/api/products/${id}`, 'PUT', formData)
+  console.log(data)
+
+  return await apiCaller(`/api/products/${id}`, 'PUT', data)
 }
 
 const _delete = async (id) => {

@@ -39,24 +39,6 @@ export default {
     try {
       const data = { ...req.body }
 
-      // if (req.files.thumbnail) {
-      //   let file = await CloudinaryUploader.upload(req.files.thumbnail[0])
-
-      //   data.thumbnail = file.secure_url
-      // } else {
-      //   data.thumbnail = ''
-      // }
-
-      // if (req.files.images) {
-      //   let files = []
-      //   for (let i = 0; i < req.files.images.length; i++) {
-      //     let file = await CloudinaryUploader.upload(req.files.images[i])
-      //     files.push(file)
-      //   }
-      //   data.images = files.map((item) => item.secure_url)
-      // } else {
-      //   data.images = []
-      // }
       return await Repository.create(data)
     } catch (error) {
       throw error
@@ -67,25 +49,6 @@ export default {
     try {
       const { id } = req.params
       const data = { ...req.body }
-
-      if (req.files.thumbnail) {
-        let file = await CloudinaryUploader.upload(req.files.thumbnail[0])
-
-        data.thumbnail = file.secure_url
-      } else {
-        data.thumbnail = ''
-      }
-
-      if (req.files.images) {
-        let files = []
-        for (let i = 0; i < req.files.images.length; i++) {
-          let file = await CloudinaryUploader.upload(req.files.images[i])
-          files.push(file)
-        }
-        data.images = files.map((item) => item.secure_url)
-      } else {
-        data.images = []
-      }
 
       return await Repository.update(id, data)
     } catch (error) {

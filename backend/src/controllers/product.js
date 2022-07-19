@@ -33,7 +33,6 @@ export default {
   create: async (req, res) => {
     try {
       const data = await Service.create(req)
-      console.log(data);
       return ResponseHandler.success(res, data)
     } catch (error) {
       return ResponseHandler.error(res, error)
@@ -42,6 +41,7 @@ export default {
 
   update: async (req, res) => {
     try {
+      console.log('req.body: ', req.body)
       const data = await Service.update(req)
       return ResponseHandler.success(res, data)
     } catch (error) {

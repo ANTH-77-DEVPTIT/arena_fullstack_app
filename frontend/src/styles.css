@@ -60,6 +60,9 @@ b {
   top: 5px;
   left: 5px;
 }
+.checkbox__thumbnail:hover {
+  cursor: pointer;
+}
 
 .checkbox__images {
   width: 20px;
@@ -71,4 +74,9 @@ b {
   left: 14px;
 }
 
+.checkbox__images:hover {
+  cursor: pointer;
+}
+
 /* absolute: so voi thang relative chua no.  Fixed thi cha no la thang trinh duyet */
+
