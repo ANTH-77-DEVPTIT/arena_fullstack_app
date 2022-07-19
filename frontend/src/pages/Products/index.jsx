@@ -67,32 +67,34 @@ function ProductsPage(props) {
   const handleSubmit = async (formData) => {
     try {
       actions.showAppLoading()
-      console.log(formData)
+
       let data = {}
       Object.keys(formData).forEach((key) =>
-        formData[key].value ? (data[key] = formData[key].value) : null,
+      formData[key].value ? (data[key] = formData[key].value) : null,
       )
 
-      // const images = await UploadApi.upload(data)
-
-      // //tranfer data images from [File] to URL
-      // data['images'] = images.data.images
-      // data['thumbnail'] = images.data.images[0]
+      const images = await UploadApi.upload(data)
+      
+      //tranfer data images from [File] to URL
+      data['images'] = images.data.images
+      data['thumbnail'] = images.data.images[0]
 
       let res = null
 
       if (created?.id) {
-        if (data.thumbnail) {
-          const newThumbnail = await UploadApi.upload(data)
+        // if (data.thumbnail) {
+        //   const newThumbnail = await UploadApi.upload(data)
 
-          data.thumbnail = newThumbnail.data.images[0]
+        //   data.thumbnail = newThumbnail.data.images[0]
 
-          res = await ProductApi.update(created.id, data)
-        } else {
-          data.thumbnail = ''
-          res = await ProductApi.update(created.id, data)
-        }
-        // res = await ProductApi.update(created.id, data)
+        //   res = await ProductApi.update(created.id, data)
+        // } else {
+        //   data.thumbnail = ''
+        //   res = await ProductApi.update(created.id, data)
+        // }
+
+        console.log('dataUPdate', data);
+        res = await ProductApi.update(created.id, data)
         // console.log('data :>> ', data)
       } else {
         res = await ProductApi.create(data)

@@ -4,8 +4,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import AppHeader from '../../components/AppHeader'
 import FormControl from '../../components/FormControl'
 import FormValidate from '../../helpers/formValidate'
-import UploadApi from '../../api/upload'
-import apiCaller from '../../helpers/apiCaller'
 
 CreateForm.propTypes = {
   created: PropTypes.object,
@@ -141,9 +139,6 @@ const initialFormData = {
 
 function CreateForm(props) {
   const { actions, created, onDiscard, onSubmit, vendors } = props
-  const [updatedImages, setUpdatedImages] = useState(created)
-  const [updatedThumbnail, setUpdatedThumbnail] = useState(created)
-  // console.log(images);
 
   const [formData, setFormData] = useState(initialFormData)
   const [vendor, setVendor] = useState(formData.vendorId.options[1])
@@ -175,25 +170,19 @@ function CreateForm(props) {
         'status',
         'vendorId',
         'thumbnail',
-        'images',
       ]).map(
         (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '') }), //spread operator clone obj and updated value
       )
       Array.from(['publish']).map(
         (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '') }),
       )
-      console.log('_formData useEff', _formData)
+      Array.from(['images']).map(
+        (key) => (_formData[key] = { ..._formData[key], value: Array(created[key] || '') }),
+      )
     }
 
     setFormData(_formData)
   }, [])
-
-  const handleDeleteThumbnail = () => {
-    let _formData = JSON.parse(JSON.stringify(formData))
-
-    _formData = {}
-    // console.log(created)
-  }
 
   const handleChange = (name, value) => {
     let _formData = JSON.parse(JSON.stringify(formData))
@@ -206,13 +195,32 @@ function CreateForm(props) {
     setFormData(_formData)
   }
 
+  const handleDeleteThumbnail = () => {
+    let _formData = JSON.parse(JSON.stringify(formData))
+
+    const newForm = { ..._formData, thumbnail: {
+      type: 'file',
+      label: 'Thumbnail',
+      value: '',
+      error: '',
+      validate: {},
+      allowMultiple: false,
+    },}
+    
+    setFormData(newForm)
+  }
+  
   const handleSubmit = async () => {
     try {
       const { valid, data } = FormValidate.validateForm(formData)
 
+      //sau khi qua validate thif mat file ddi
+      
       if (valid) {
         data['thumbnail'].value = formData['thumbnail'].value
-        data['images'].value = formData['images'].value
+        // data['images'].value = formData['images'].value
+
+        console.log('data', data);
 
         onSubmit(data)
       } else {
@@ -225,15 +233,7 @@ function CreateForm(props) {
     }
   }
 
-  const handleDeleteThumbnai = () => {
-    const _formData = JSON.parse(JSON.stringify(formData))
-
-    _formData.thumbnail.value = ''
-
-    setFormData(_formData)
-  }
-
-  console.log(formData)
+  console.log(formData);
 
   return (
     <Stack vertical alignment="fill">
@@ -316,16 +316,28 @@ function CreateForm(props) {
               </Stack>
             </Stack.Item>
 
-            {formData.thumbnail.value ? (
+            {created?.id ? (
               <Stack>
                 <Stack.Item fill>
                   <Grid>
                     <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                      <Card title="thumbnail">
+                      <Card title="Thumbnail">
                         <div className="thumbnail">
-                          <div className="checkbox__thumbnail" onClick={handleDeleteThumbnai}></div>
+                          <div className="checkbox__thumbnail" onClick={handleDeleteThumbnail}></div>
                           <img src={created.thumbnail} alt="" />
                         </div>
+                      </Card>
+                    </Grid.Cell>
+                    <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                      <Card title="Images">
+                        {
+                          created.images.map((item) => (
+                            <div className="images">
+                              <div className='checkbox__images'></div>
+                              <img src={item} alt="Image ne" />
+                            </div>
+                          ))
+                        }
                       </Card>
                     </Grid.Cell>
                   </Grid>
@@ -334,50 +346,6 @@ function CreateForm(props) {
             ) : (
               ''
             )}
-
-            {formData.images.value ? <Stack></Stack> : ''}
-
-            {/* {created?.id ? (
-              <Stack>
-                <Stack.Item fill>
-                  <Grid>
-                    <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                      <Card title="Thumbnail">
-                        {created.thumbnail.length === 0 ? (
-                          <Heading>No Thumbnail selected!</Heading>
-                        ) : (
-                          <div className="thumbnail">
-                            <div
-                              className="checkbox__thumbnail"
-                              onClick={handleDeleteThumbnail}
-                            ></div>
-                            <img src={created.thumbnail} alt="Thumbnail ne" />
-                          </div>
-                        )}
-                      </Card>
-                    </Grid.Cell>
-                    <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                      <Card title="Images">
-                        {created.images.length === 0 ? (
-                          <Heading>No Images Selected!</Heading>
-                        ) : (
-                          created.images.map((item, index) => {
-                            return (
-                              <div className="images" key={index}>
-                                <div className="checkbox__images"></div>
-                                <img src={item} alt="image ne" />
-                              </div>
-                            )
-                          })
-                        )}
-                      </Card>
-                    </Grid.Cell>
-                  </Grid>
-                </Stack.Item>
-              </Stack>
-            ) : (
-              ''
-            )} */}
 
             <Stack.Item>
               <Stack>
