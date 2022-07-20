@@ -123,6 +123,7 @@ const initialFormData = {
     type: 'file',
     label: 'Thumbnail',
     value: null,
+    originValue: null,
     error: '',
     validate: {},
     allowMultiple: false,
@@ -131,6 +132,7 @@ const initialFormData = {
     type: 'file',
     label: 'Images',
     value: [],
+    originValue: [],
     error: '',
     validate: {},
     allowMultiple: true,
@@ -162,27 +164,24 @@ function CreateForm(props) {
 
     //if have value edit. set value into input and edit
     if (created.id) {
-      Array.from([
-        'title',
-        'description',
-        'price',
-        'handle',
-        'status',
-        'vendorId',
-        'thumbnail',
-      ]).map(
+      Array.from(['title', 'description', 'price', 'handle', 'status', 'vendorId']).map(
         (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '') }), //spread operator clone obj and updated value
       )
       Array.from(['publish']).map(
         (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '') }),
       )
       Array.from(['images']).map(
-        (key) => (_formData[key] = { ..._formData[key], value: Array(created[key] || '') }),
+        (key) => (_formData[key] = { ..._formData[key], originValue: created[key] || [] }),
+      )
+      Array.from(['thumbnail']).map(
+        (key) => (_formData[key] = { ..._formData[key], originValue: created[key] || '' }),
       )
     }
 
     setFormData(_formData)
   }, [])
+
+  console.log('created', created)
 
   const handleChange = (name, value) => {
     let _formData = JSON.parse(JSON.stringify(formData))
@@ -198,29 +197,31 @@ function CreateForm(props) {
   const handleDeleteThumbnail = () => {
     let _formData = JSON.parse(JSON.stringify(formData))
 
-    const newForm = { ..._formData, thumbnail: {
-      type: 'file',
-      label: 'Thumbnail',
-      value: '',
-      error: '',
-      validate: {},
-      allowMultiple: false,
-    },}
-    
-    setFormData(newForm)
+    //cập nhật lại formData
+    _formData['thumbnail'].originValue = ''
+
+    //cập nhật lại thằng created
+    created['thumbnail'] = ''
+
+    setFormData(_formData)
   }
-  
+
+  const handleDeleteImages = (index) => {
+    let _formData = JSON.parse(JSON.stringify(formData))
+
+    _formData['images'].originValue.splice(index, 1)
+    created['images'].splice(index, 1)
+
+    setFormData(_formData)
+  }
+
   const handleSubmit = async () => {
     try {
       const { valid, data } = FormValidate.validateForm(formData)
 
-      //sau khi qua validate thif mat file ddi
-      
       if (valid) {
         data['thumbnail'].value = formData['thumbnail'].value
-        // data['images'].value = formData['images'].value
-
-        console.log('data', data);
+        data['images'].value = formData['images'].value
 
         onSubmit(data)
       } else {
@@ -232,8 +233,6 @@ function CreateForm(props) {
       actions.showNotify({ error: true, message: error.message })
     }
   }
-
-  console.log(formData);
 
   return (
     <Stack vertical alignment="fill">
@@ -322,22 +321,30 @@ function CreateForm(props) {
                   <Grid>
                     <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
                       <Card title="Thumbnail">
-                        <div className="thumbnail">
-                          <div className="checkbox__thumbnail" onClick={handleDeleteThumbnail}></div>
-                          <img src={created.thumbnail} alt="" />
-                        </div>
+                        {created.thumbnail === null || created.thumbnail === '' ? (
+                          <Heading>No Thumbnail Selected!</Heading>
+                        ) : (
+                          <div className="thumbnail">
+                            <div
+                              className="checkbox__thumbnail"
+                              onClick={handleDeleteThumbnail}
+                            ></div>
+                            <img src={created.thumbnail} alt="" />
+                          </div>
+                        )}
                       </Card>
                     </Grid.Cell>
                     <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
                       <Card title="Images">
-                        {
-                          created.images.map((item) => (
-                            <div className="images">
-                              <div className='checkbox__images'></div>
-                              <img src={item} alt="Image ne" />
-                            </div>
-                          ))
-                        }
+                        {created.images.map((item, index) => (
+                          <div className="images" key={index}>
+                            <div
+                              className="checkbox__images"
+                              onClick={() => handleDeleteImages(index)}
+                            ></div>
+                            <img src={item} alt="Image ne" />
+                          </div>
+                        ))}
                       </Card>
                     </Grid.Cell>
                   </Grid>

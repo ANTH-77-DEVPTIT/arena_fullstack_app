@@ -1,6 +1,10 @@
 .load-page{
-  background: #fff;
   overflow: hidden;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 9999;
 }
 .loader{
   width: 300px;

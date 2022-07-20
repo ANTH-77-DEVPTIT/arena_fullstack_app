@@ -67,39 +67,40 @@ function ProductsPage(props) {
   const handleSubmit = async (formData) => {
     try {
       actions.showAppLoading()
+      console.log('formData 1:))', formData)
+
+      //handle Thumbnail
+      if (formData['thumbnail'].value) {
+        let images = await UploadApi.upload([formData['thumbnail'].value])
+        formData['thumbnail'].value = images.data[0]
+      } else if (formData['thumbnail'].originValue) {
+        formData['thumbnail'].value = formData['thumbnail'].originValue
+      }
+
+      //handle Images
+      if (formData['images'].value.length > 0) {
+        let images = await UploadApi.upload(formData['images'].value)
+        formData['images'].value = [...images.data, ...formData['images'].originValue]
+      } else if (formData['images'].originValue) {
+        formData['images'].value = formData['images'].originValue
+      }
+      console.log('formData :))', formData)
 
       let data = {}
       Object.keys(formData).forEach((key) =>
-      formData[key].value ? (data[key] = formData[key].value) : null,
+        formData[key].value || key === 'thumbnail' ? (data[key] = formData[key].value) : null,
       )
 
-      const images = await UploadApi.upload(data)
-      
-      //tranfer data images from [File] to URL
-      data['images'] = images.data.images
-      data['thumbnail'] = images.data.images[0]
+      console.log('data :>> ', data)
 
       let res = null
 
       if (created?.id) {
-        // if (data.thumbnail) {
-        //   const newThumbnail = await UploadApi.upload(data)
-
-        //   data.thumbnail = newThumbnail.data.images[0]
-
-        //   res = await ProductApi.update(created.id, data)
-        // } else {
-        //   data.thumbnail = ''
-        //   res = await ProductApi.update(created.id, data)
-        // }
-
-        console.log('dataUPdate', data);
         res = await ProductApi.update(created.id, data)
         // console.log('data :>> ', data)
       } else {
         res = await ProductApi.create(data)
       }
-
       if (!res.success) {
         throw res.error
       }

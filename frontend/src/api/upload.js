@@ -1,17 +1,11 @@
 import apiCaller from '../helpers/apiCaller.js'
 
-const upload = async (dataImg) => {
+const upload = async (images) => {
   const formData = new FormData()
 
-  //   Object.keys(dataImg).filter(name => ['thumbnail'].includes(name)).forEach(name => formData.append('images', dataImg[name]))
-  formData.append('images', dataImg['thumbnail'])
+  images.forEach((item) => formData.append('images', item))
 
-  if (dataImg.images?.length) {
-    dataImg.images.forEach((item) => formData.append('images', item))
-  }
-  const imgURL = await apiCaller(`/api/uploads`, 'POST', formData)
-
-  return imgURL
+  return await apiCaller(`/api/uploads`, 'POST', formData)
 }
 
 const UploadApi = {

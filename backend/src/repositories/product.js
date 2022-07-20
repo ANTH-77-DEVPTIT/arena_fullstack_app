@@ -57,6 +57,7 @@ export default {
       const handle = `${handleSlug}-${Date.now()}`
 
       const newData = { ...dataProduct, handle: handle }
+      console.log('newData', newData)
 
       return await Model.create(newData)
     } catch (error) {
