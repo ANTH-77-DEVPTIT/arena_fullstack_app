@@ -15,12 +15,12 @@ export default {
 
   find: async (req) => {
     try {
-      const { page, limit } = req.query
+      const { page, limit, status, title, price } = req.query
 
       let _page = parseInt(page) ? parseInt(page) : PAGE
       let _limit = parseInt(limit) ? parseInt(limit) : LIMIT
 
-      return await Repository.find({ page: _page, limit: _limit })
+      return await Repository.find({ page: _page, limit: _limit, status, title, price })
     } catch (error) {
       throw error
     }
@@ -39,7 +39,7 @@ export default {
     try {
       const data = { ...req.body }
 
-      return await Repository.create(data)
+      return await Repository.create(data, req)
     } catch (error) {
       throw error
     }

@@ -68,7 +68,6 @@ function ProductsPage(props) {
   const handleSubmit = async (formData) => {
     try {
       actions.showAppLoading()
-      console.log('formData 1:))', formData)
 
       //handle Thumbnail
       if (formData['thumbnail'].value) {
