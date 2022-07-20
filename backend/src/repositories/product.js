@@ -17,7 +17,6 @@ export default {
   find: async ({ page, limit }) => {
     try {
       const count = await Model.count()
-      console.log(count)
       const items = await Model.findAll({
         limit,
         offset: (page - 1) * limit,

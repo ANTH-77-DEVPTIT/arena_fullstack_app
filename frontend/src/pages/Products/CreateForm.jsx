@@ -181,8 +181,6 @@ function CreateForm(props) {
     setFormData(_formData)
   }, [])
 
-  console.log('created', created)
-
   const handleChange = (name, value) => {
     let _formData = JSON.parse(JSON.stringify(formData))
     Array.from(['thumbnail', 'images']).forEach((key) => (_formData[key] = formData[key]))

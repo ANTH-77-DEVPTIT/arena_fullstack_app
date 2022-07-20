@@ -9,6 +9,7 @@ import PagePreloader from '../../components/PagePreloader'
 import ConfirmDelete from './ConfirmDelete'
 import CreateForm from './CreateForm'
 import ProductList from './ProductList'
+import TabsFilters from './TabsFilters'
 
 function ProductsPage(props) {
   const { actions } = props
@@ -84,14 +85,11 @@ function ProductsPage(props) {
       } else if (formData['images'].originValue) {
         formData['images'].value = formData['images'].originValue
       }
-      console.log('formData :))', formData)
 
       let data = {}
       Object.keys(formData).forEach((key) =>
         formData[key].value || key === 'thumbnail' ? (data[key] = formData[key].value) : null,
       )
-
-      console.log('data :>> ', data)
 
       let res = null
 
@@ -179,6 +177,11 @@ function ProductsPage(props) {
                   Total items: <b>{products?.totalItems}</b>
                 </div>
               </Stack.Item>
+
+              {/* <Stack.Item>
+                <TabsFilters />
+              </Stack.Item> */}
+
               <Stack.Item>
                 <ProductList
                   {...props}

@@ -2,7 +2,7 @@ import CloudinaryUploader from '../connector/cloudinary/index.js'
 import Repository from '../repositories/product.js'
 
 const PAGE = 1
-const LIMIT = 5
+const LIMIT = 10
 
 export default {
   count: async () => {
