@@ -3,6 +3,9 @@ import Repository from '../repositories/product.js'
 
 const PAGE = 1
 const LIMIT = 10
+const statusList = ['ACTIVE', 'DRAFT', 'ARCHIVED']
+const minPrice = 1
+const maxPrice = 1000000000000
 
 export default {
   count: async () => {
@@ -15,12 +18,26 @@ export default {
 
   find: async (req) => {
     try {
-      const { page, limit, status, title, price } = req.query
+      const { page, limit, status, price } = req.query
 
       let _page = parseInt(page) ? parseInt(page) : PAGE
       let _limit = parseInt(limit) ? parseInt(limit) : LIMIT
+      let _status = status ? status : statusList
+      let _priceLow = price[0] ? parseInt(price[0]) : (price[0] = minPrice)
+      let _priceHigh = price[1] ? parseInt(price[1]) : (price[1] = maxPrice)
 
-      return await Repository.find({ page: _page, limit: _limit, status, title, price })
+      console.log('price :>> ', price)
+
+      // lay va xu ly may thang filter o day
+      // ve title thi nen xu ly sau theo search input.
+
+      return await Repository.find({
+        page: _page,
+        limit: _limit,
+        status: _status,
+        priceLow: _priceLow,
+        priceHigh: _priceHigh,
+      })
     } catch (error) {
       throw error
     }

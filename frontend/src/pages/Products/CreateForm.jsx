@@ -156,7 +156,10 @@ function CreateForm(props) {
     _formData.handle.value = `auto-generated data`
     _formData.status.value = 'ACTIVE'
 
-    const vendorOptions = vendors.map((vendor) => ({ label: vendor.name, value: '' + vendor.id }))
+    const vendorOptions = vendors.map((vendor) => ({
+      label: vendor.name.toUpperCase(),
+      value: '' + vendor.id,
+    }))
 
     vendorOptions.unshift({ label: 'Select a vendor', value: '' })
 

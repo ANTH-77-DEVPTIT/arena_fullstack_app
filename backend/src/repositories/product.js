@@ -15,19 +15,24 @@ export default {
     }
   },
 
-  find: async ({ page, limit, status, title, price }) => {
+  find: async ({ page, limit, status, priceLow, priceHigh }) => {
     try {
-
-      console.log('status', status)
       const count = await Model.count()
+
       const items = await Model.findAll({
         where: {
-          price: price,
+          status: { [Op.or]: [status] },
+          // price: {
+          //   [Op.and]: {
+          //     [Op.lte]: priceHigh,
+          //     [Op.gte]: priceLow,
+          //   },
+          // },
         },
         limit,
         offset: (page - 1) * limit,
         include,
-        order: [['id', 'DESC']], //cho nay se tuy bien khi client lua chon sap xep theo thang nao/
+        order: [['title', 'ASC']], //cho nay se tuy bien khi client lua chon sap xep theo thang nao/
         //co the tang hoac giam  tuy bien user muon.
       })
 
@@ -83,9 +88,7 @@ export default {
 
       const handle = `${handleSlug}-${Date.now()}`
 
-      console.log(handle)
       const dataUpdate = { ...data, handle: handle }
-      console.log(dataUpdate)
 
       await Model.update(dataUpdate, {
         where: { id },
