@@ -18,7 +18,7 @@ export default {
 
   find: async (req) => {
     try {
-      const { page, limit, status, price } = req.query
+      const { page, limit, status, price, vendor } = req.query
 
       let _page = parseInt(page) ? parseInt(page) : PAGE
       let _limit = parseInt(limit) ? parseInt(limit) : LIMIT
@@ -27,6 +27,8 @@ export default {
       let _priceHigh = price[1] ? parseInt(price[1]) : (price[1] = maxPrice)
 
       console.log('price :>> ', price)
+
+      console.log('vendor', typeof vendor)
 
       // lay va xu ly may thang filter o day
       // ve title thi nen xu ly sau theo search input.

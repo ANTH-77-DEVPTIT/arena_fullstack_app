@@ -3,7 +3,7 @@ import VendorModel from '../models/vendor.js'
 import generateSlug from '../helpers/generateSlug.js'
 
 import { Op } from 'sequelize'
-const include = [{ model: VendorModel, as: 'vendor' }]
+const include = [{ model: VendorModel, as: 'vendor', attributes: ['id', 'name'] }]
 
 export default {
   count: async () => {
@@ -20,17 +20,18 @@ export default {
       const count = await Model.count()
 
       const items = await Model.findAll({
+        attributes: ['title', ['description', 'MoTa'], 'price'],
         where: {
           status: { [Op.or]: [status] },
-          // price: {
-          //   [Op.and]: {
-          //     [Op.lte]: priceHigh,
-          //     [Op.gte]: priceLow,
-          //   },
-          // },
+          price: {
+            [Op.and]: {
+              [Op.lte]: priceHigh,
+              [Op.gte]: priceLow,
+            },
+          },
         },
         limit,
-        offset: (page - 1) * limit,
+        offset: (page - 1) * limit, //skip
         include,
         order: [['title', 'ASC']], //cho nay se tuy bien khi client lua chon sap xep theo thang nao/
         //co the tang hoac giam  tuy bien user muon.
